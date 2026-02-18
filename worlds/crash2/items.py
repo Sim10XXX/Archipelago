@@ -26,7 +26,7 @@ ITEM_NAME_TO_ID = {
 # In our case, we will make a dictionary from item name to classification.
 DEFAULT_ITEM_CLASSIFICATIONS = {
     "Crystal" : ItemClassification.progression, # | ItemClassification.useful,
-    "Clear Gem" : ItemClassification. filler,
+    "Clear Gem" : ItemClassification.filler,
     "Blue Gem" : ItemClassification.progression,
     "Red Gem" : ItemClassification.progression,
     "Green Gem" : ItemClassification.progression,

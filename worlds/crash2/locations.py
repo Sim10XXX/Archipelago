@@ -45,39 +45,13 @@ levelNameToId = {
     "Totally Bear": 0x25 ,
     "Totally Fly": 0x27 ,
 }
-level_names = ["Turtle Woods",
-               "Snow Go",
-               "Hang Eight",
-               "The Pits",
-               "Crash Dash",
-               "Ripper Roo", #Boss 1
-               "Snow Biz",
-               "Air Crash",
-               "Bear It",
-               "Crash Crush",
-               "The Eel Deal",
-               "Komodo Brothers", #Boss 2
-               "Plant Food",
-               "Sewer or Later",
-               "Bear Down",
-               "Road to Ruin",
-               "Un-Bearable",
-               "Tiny Tiger", #Boss 3
-               "Hangin' Out",
-               "Diggin' It",
-               "Cold Hard Crash",
-               "Ruination",
-               "Bee-Having",
-               "Dr. N. Gin", #Boss 4
-               "Piston it Away",
-               "Rock It",
-               "Night Fight",
-               "Pack Attack",
-               "Spaced Out",
-               "Dr. Neo Cortex", #Boss 5
-               "Totally Bear",
-               "Totally Fly",
- ]
+
+# gets the name of the level with that level ID. array where the index is the level ID you want. level IDs cannot go above 0x3F (63).
+levelIdToName = [None] * 64
+# fills array based on map defined right above this!
+for name in levelNameToId:
+    levelIdToName[levelNameToId[name]] = name
+
 
 # Every location must have a unique integer ID associated with it.
 # We will have a lookup from location name to ID here that, in world.py, we will import and bind to the world class.
@@ -327,7 +301,7 @@ def create_regular_locations(world: Crash2World) -> None:
     #level_exits_option = False # this will be an option in the future maybe
 
     locations = LOCATION_NAME_TO_ID.keys()
-    for name in level_names:
+    for name in levelNameToId:
         region = world.get_region(name)
         for location in locations:
             if name in location:

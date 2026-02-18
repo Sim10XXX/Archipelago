@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle, DefaultOnToggle
+from Options import Toggle, DefaultOnToggle, Option, Range, Choice, ItemDict, OptionList, DeathLink, PerGameCommonOptions
+from Options import OptionGroup
 
 
 # In this file, we define the options the player can pick.
@@ -68,6 +69,54 @@ class FruitSanity(Choice):
 
     default = option_disabled
 
+class RandomizeWarpDestinations(Toggle):
+    """
+    Randomize the destination of all 30 warp portals in the Warp Room.
+    This includes the three secret entrances, which means any portal can for example take you to Snow Go's secret path.
+    Bosses are not randomized.
+    """
+    display_name = "Randomize Warp Destinations"
+
+class NonRandomizedWarpDestinations(OptionList):
+    """
+    If "randomize_warp_destinations" is enabled, any levels placed in this list will retain their original position in the Warp Room.
+    Note: Secret entrances are grouped with their level in this. Adding "Snow Go" for example will also prevent Snow Go's secret entrance from being randomized.
+    """
+    # todo: decouple secret entrances
+    display_name = "Non-Randomized Warp Destinations"
+    valid_keys = [
+        "Turtle Woods",
+        "Snow Go",
+        "Snow Go (Secret Entrance)",
+        "Hang Eight",
+        "The Pits",
+        "Crash Dash",
+        "Snow Biz",
+        "Air Crash",
+        "Air Crash (Secret Entrance)",
+        "Bear It",
+        "Crash Crush",
+        "The Eel Deal",
+        "Plant Food",
+        "Sewer or Later",
+        "Bear Down",
+        "Road to Ruin",
+        "Road to Ruin (Secret Entrance)",
+        "Un-Bearable",
+        "Hangin' Out",
+        "Diggin' It",
+        "Cold Hard Crash",
+        "Ruination",
+        "Bee-Having",
+        "Piston it Away",
+        "Rock It",
+        "Night Fight",
+        "Pack Attack",
+        "Spaced Out",
+        "Totally Fly",
+        "Totally Bear"
+    ]
+
 # # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
@@ -77,6 +126,8 @@ class Crash2Options(PerGameCommonOptions):
     speedrun_logic: SpeedrunLogic
     wumpa_chance: WumpaFruitChance
     fruit_sanity: FruitSanity
+    randomize_warp_destinations: RandomizeWarpDestinations
+    non_randomized_warp_destinations: NonRandomizedWarpDestinations
     # hard_mode: HardMode
     # hammer: Hammer
     # extra_starting_chest: ExtraStartingChest

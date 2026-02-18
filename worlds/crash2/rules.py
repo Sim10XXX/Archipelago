@@ -61,15 +61,15 @@ def set_all_entrance_rules(world: Crash2World) -> None:
     set_rule(world.get_entrance("Warp Room 5 to Dr. Neo Cortex"), lambda state: state.has("Crystal", world.player, 25))
 
 
-    set_rule(world.get_entrance("Warp Room 0 to Air Crash"),
+    set_rule(world.get_entrance("Warp Room 6 to " + world.secret_warp_room_levels[0]),
              lambda state: state.has("Air Crash Secret Entrance", world.player))
-    set_rule(world.get_entrance("Warp Room 0 to Snow Go"),
+    set_rule(world.get_entrance("Warp Room 6 to " + world.secret_warp_room_levels[1]),
              lambda state: state.has("Snow Go Secret Entrance", world.player))
-    set_rule(world.get_entrance("Warp Room 0 to Road to Ruin"),
+    set_rule(world.get_entrance("Warp Room 6 to " + world.secret_warp_room_levels[2]),
              lambda state: state.has("Road to Ruin Secret Entrance", world.player))
-    set_rule(world.get_entrance("Warp Room 0 to Totally Bear"),
+    set_rule(world.get_entrance("Warp Room 6 to " + world.secret_warp_room_levels[3]),
              lambda state: state.has("Totally Bear Secret Entrance", world.player))
-    set_rule(world.get_entrance("Warp Room 0 to Totally Fly"),
+    set_rule(world.get_entrance("Warp Room 6 to " + world.secret_warp_room_levels[4]),
              lambda state: state.has("Totally Fly Secret Entrance", world.player))
     # Conditions can depend on event items.
     # set_rule(right_room_to_final_boss_room, lambda state: state.has("Top Left Room Button Pressed", world.player))
