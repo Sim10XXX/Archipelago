@@ -80,7 +80,8 @@ class RandomizeWarpDestinations(Toggle):
 class NonRandomizedWarpDestinations(OptionList):
     """
     If "randomize_warp_destinations" is enabled, any levels placed in this list will retain their original position in the Warp Room.
-    Note: Secret entrances are grouped with their level in this. Adding "Snow Go" for example will also prevent Snow Go's secret entrance from being randomized.
+    You must specify the secret entrances separately.
+    For example, "Snow Go (Secret Entrance)" will keep the Snow Go secret entrance portal as the second portal in the secret warp room.
     """
     # todo: decouple secret entrances
     display_name = "Non-Randomized Warp Destinations"

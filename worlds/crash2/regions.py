@@ -78,7 +78,6 @@ def connect_regions(world: Crash2World) -> None:
     # Connect every warp room to its levels
     for i in range(6):
         warp_room = world.get_region("Warp Room "+str(i+1))
-        level_ids_already_connected = []
         # Clear (and then fill) this so that we can connect any level using the secret entrance rules.
         if i == 5:
             world.secret_warp_room_levels = []
@@ -87,7 +86,6 @@ def connect_regions(world: Crash2World) -> None:
             # the warp room list has 'special' IDs to differentiate from secret entrances. strip that out.
             level_id = world.warp_room[i * 5 + j] & 0x3F
             is_secret_entrance = world.warp_room[i * 5 + j] & 0x100
-            level_ids_already_connected.append(level_id)
             level_name = levelIdToName[level_id]
             level_name_full = level_name + " Secret Entrance" if is_secret_entrance else level_name
             level = world.get_region(level_name)

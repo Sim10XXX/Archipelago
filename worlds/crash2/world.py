@@ -49,7 +49,7 @@ class Crash2World(World):
     # warp room level layout
     warp_room: list[int] = randomize_warp.warpRoomLevelIds
     secret_warp_room_levels = []
-    print(warp_room)
+    secret_warp_room_entrance_ids = []
 
     # There is always one region that the generator starts from & assumes you can always go back to.
     # This defaults to "Menu", but you can change it by overriding origin_region_name.
@@ -60,7 +60,7 @@ class Crash2World(World):
     # For better structure and readability, we put each of these in their own file.
     def generate_early(self) -> None:
         if self.options.randomize_warp_destinations.value:
-            self.warp_room = randomize_warp.shuffle_warp_room_destinations(self, [])
+            self.warp_room = randomize_warp.shuffle_warp_room_destinations(self, self.options.non_randomized_warp_destinations.value)
 
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
@@ -91,12 +91,11 @@ class Crash2World(World):
     def fill_slot_data(self) -> Mapping[str, Any]:
         # If you need access to the player's chosen options on the client side, there is a helper for that.
         return {
-            "options": {
-                "fruit_sanity": self.options.fruit_sanity.value,
-                "randomize_warp_destinations": self.options.randomize_warp_destinations.value,
-                "non_randomized_warp_destinations": self.options.non_randomized_warp_destinations.value
-            },
+            "options": self.options.as_dict(
+                "fruit_sanity", "randomize_warp_destinations", "non_randomized_warp_destinations"
+            ),
             "warp_room_destinations": self.warp_room,
+            "secret_warp_room_entrances": self.secret_warp_room_entrance_ids,
             "seed": self.multiworld.seed_name,  # to verify the server's multiworld
             "slot": self.multiworld.player_name[self.player]  # to connect to server
         }
