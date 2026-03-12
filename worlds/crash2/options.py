@@ -118,6 +118,102 @@ class NonRandomizedWarpDestinations(OptionList):
         "Totally Bear"
     ]
 
+class TrapChance(Range):
+
+    """
+    Chance to replace a filler life/fruit with a trap
+    If playing with fruit sanity you should lower this chance because there will be a LOT of traps
+    """
+    display_name = "Trap Chance"
+
+    range_start = 0
+    range_end = 100
+    default = 33
+
+class TrapDuration(Range):
+    """
+    Amount of seconds a trap will be active for
+    Receiving a trap when it was already active will reset the duration
+    """
+    display_name = "Trap Chance"
+
+    range_start = 0
+    range_end = 100
+    default = 30
+
+class SmallCrashTrapWeight(Range):
+
+    """
+    Relative chance for a trap to be a Small Crash Trap
+    This makes Crash smol
+    Chance for a specific trap to be picked is weight / totalWeight
+    """
+    display_name = "Small Crash Trap Weight"
+
+    range_start = 0
+    range_end = 100
+    default = 10
+
+class SmallCrashSize(Range):
+
+    """
+    For testing purposes, this option will be removed after pre-release
+    Extreme values will likely be unplayable
+    This value is read as a percent, so normal crash is size 100
+    """
+    display_name = "Small Crash Size"
+
+    range_start = 0
+    range_end = 10000
+    default = 20
+
+class BigCrashTrapWeight(Range):
+
+    """
+    Relative chance for a trap to be a Big Crash Trap
+    This makes Crash beeg
+    """
+    display_name = "Big Crash Trap Weight"
+
+    range_start = 0
+    range_end = 100
+    default = 10
+
+class BigCrashSize(Range):
+
+    """
+    For testing purposes, this option will be removed after pre-release
+    Extreme values will likely be unplayable
+    This value is read as a percent, so normal crash is size 100
+    """
+    display_name = "Big Crash Size"
+
+    range_start = 0
+    range_end = 10000
+    default = 150
+
+class NoLivesTrapWeight(Range):
+    """
+    Relative chance for a trap to be a No Lives Trap
+    This temporarily removes all your lives
+    """
+    display_name = "No Lives Weight"
+
+    range_start = 0
+    range_end = 100
+    default = 10
+
+class JetpackControlsTrapWeight(Range):
+    """
+    Relative chance for a trap to be a Jetpack Controls Trap
+    Just imagine you are in a jetpack level
+    """
+    display_name = "Jetpack Controls Weight"
+
+    range_start = 0
+    range_end = 100
+    default = 10
+
 # # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
@@ -129,6 +225,14 @@ class Crash2Options(PerGameCommonOptions):
     fruit_sanity: FruitSanity
     randomize_warp_destinations: RandomizeWarpDestinations
     non_randomized_warp_destinations: NonRandomizedWarpDestinations
+    trap_chance: TrapChance
+    trap_duration: TrapDuration
+    small_crash_weight: SmallCrashTrapWeight
+    small_crash_size: SmallCrashSize
+    big_crash_weight: BigCrashTrapWeight
+    big_crash_size: BigCrashSize
+    no_lives_weight: NoLivesTrapWeight
+    jetpack_controls_weight: JetpackControlsTrapWeight
     # hard_mode: HardMode
     # hammer: Hammer
     # extra_starting_chest: ExtraStartingChest

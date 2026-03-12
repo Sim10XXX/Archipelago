@@ -20,6 +20,10 @@ ITEM_NAME_TO_ID = {
     "Purple Gem" : 7,
     "Life" : 8,
     "Wumpa Fruit" : 9,
+    "Big Crash Trap" : 10,
+    "Small Crash Trap" : 11,
+    "No Lives Trap" : 12,
+    "Jetpack Controls Trap" : 13,
 }
 
 # Items should have a defined default classification.
@@ -34,6 +38,10 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Purple Gem" : ItemClassification.progression,
     "Life" : ItemClassification.filler,
     "Wumpa Fruit" : ItemClassification.filler,
+    "Big Crash Trap" : ItemClassification.trap,
+    "Small Crash Trap" : ItemClassification.trap,
+    "No Lives Trap" : ItemClassification.trap,
+    "Jetpack Controls Trap" : ItemClassification.trap,
 }
 
 
@@ -54,6 +62,25 @@ def get_random_filler_item_name(world: Crash2World) -> str:
     # IMPORTANT: Whenever you need to use a random generator, you must use world.random.
     # This ensures that generating with the same generator seed twice yields the same output.
     # DO NOT use a bare random object from Python's built-in random module.
+    if world.random.randint(0, 99) < world.options.trap_chance:
+        total_weight = world.options.small_crash_weight + world.options.big_crash_weight + world.options.no_lives_weight + world.options.jetpack_controls_weight
+        if total_weight > 0:
+            random_value = world.random.randint(1, total_weight)
+            random_value -= world.options.small_crash_weight
+            if random_value <= 0:
+                return "Small Crash Trap"
+            random_value -= world.options.big_crash_weight
+            if random_value <= 0:
+                return "Big Crash Trap"
+            random_value -= world.options.no_lives_weight
+            if random_value <= 0:
+                return "No Lives Trap"
+            # random_value -= world.options.jetpack_controls_weight
+            # if random_value <= 0:
+            return "Jetpack Controls Trap"
+
+
+
     if world.random.randint(0, 99) < world.options.wumpa_chance:
         return "Wumpa Fruit"
 
