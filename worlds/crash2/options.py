@@ -43,6 +43,10 @@ class SpeedrunLogic(Toggle):
     """
     true: Speedrun skips will be in logic (ex. red gem early)
     false: Casual play logic (ex. logic will assume you need the snow go secret entrance to get the red gem)
+    All the skips considered are:
+    - Red gem early (skipping snow go secret entrance)
+    - Road to Ruin box gem (skipping road to ruin secret entrance)
+    - Ruination green gem path gem (skipping green gem)
     """
     display_name = "Speedrun Logic"
 
@@ -59,7 +63,10 @@ class WumpaFruitChance(Range):
 
 class FruitSanity(Choice):
     """
-    Add wumpa fruit checks
+    Adds wumpa fruit checks
+    This applies only to free-standing wumpa fruit (not fruit spawned from boxes/enemies)
+    Full sanity adds a total of 2393 individual wumpa checks to the game
+    Fruit bundles condenses this into 404 grouped wumpa checks
     """
     display_name = "Fruit-Sanity"
 
@@ -135,10 +142,10 @@ class TrapDuration(Range):
     Amount of seconds a trap will be active for
     Receiving a trap when it was already active will reset the duration
     """
-    display_name = "Trap Chance"
+    display_name = "Trap Duration"
 
     range_start = 0
-    range_end = 100
+    range_end = 1000
     default = 30
 
 class SmallCrashTrapWeight(Range):
