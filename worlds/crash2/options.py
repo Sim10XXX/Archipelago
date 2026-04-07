@@ -65,7 +65,7 @@ class FruitSanity(Choice):
     """
     Adds wumpa fruit checks
     This applies only to free-standing wumpa fruit (not fruit spawned from boxes/enemies)
-    Full sanity adds a total of 2393 individual wumpa checks to the game
+    Full sanity adds a total of 2395 individual wumpa checks to the game
     Fruit bundles condenses this into 404 grouped wumpa checks
     """
     display_name = "Fruit-Sanity"
@@ -75,6 +75,12 @@ class FruitSanity(Choice):
     option_full_sanity = 2
 
     default = option_disabled
+class ExcludeDifficultWumpas(DefaultOnToggle):
+    """
+    Excludes particularly difficult/annoying wumpa fruit locations, which makes it so they won't contain useful/progression items
+    The specific location locations affected by this option are marked with a "*" in their name
+    """
+    display_name = "Exclude Difficult Wumpas"
 
 class RandomizeWarpDestinations(Toggle):
     """
@@ -135,7 +141,7 @@ class TrapChance(Range):
 
     range_start = 0
     range_end = 100
-    default = 33
+    default = 0
 
 class TrapDuration(Range):
     """
@@ -230,6 +236,7 @@ class Crash2Options(PerGameCommonOptions):
     speedrun_logic: SpeedrunLogic
     wumpa_chance: WumpaFruitChance
     fruit_sanity: FruitSanity
+    exclude_difficult_wumpas: ExcludeDifficultWumpas
     randomize_warp_destinations: RandomizeWarpDestinations
     non_randomized_warp_destinations: NonRandomizedWarpDestinations
     trap_chance: TrapChance
@@ -250,16 +257,21 @@ class Crash2Options(PerGameCommonOptions):
 
 #
 # # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
-# option_groups = [
-#     OptionGroup(
-#         "Gameplay Options",
-#         [HardMode, Hammer, ExtraStartingChest, StartWithOneConfettiCannon, TrapChance],
-#     ),
-#     OptionGroup(
-#         "Aesthetic Options",
-#         [ConfettiExplosiveness, PlayerSprite],
-#     ),
-# ]
+option_groups = [
+
+    OptionGroup(
+        "Fruitsanity",
+        [FruitSanity, ExcludeDifficultWumpas],
+    ),
+    OptionGroup(
+        "Warp Randomizer",
+        [RandomizeWarpDestinations, NonRandomizedWarpDestinations],
+    ),
+    OptionGroup(
+        "Trap Options",
+        [TrapChance, TrapDuration, SmallCrashTrapWeight, SmallCrashSize, BigCrashTrapWeight, BigCrashSize, NoLivesTrapWeight, JetpackControlsTrapWeight],
+    ),
+]
 
 # Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".
 # option_presets = {

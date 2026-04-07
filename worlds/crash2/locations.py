@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import ItemClassification, Location
+from BaseClasses import ItemClassification, Location, LocationProgressType
 
 from . import items
 
@@ -313,11 +313,11 @@ def create_regular_locations(world: Crash2World) -> None:
                 if "Wumpa #" in location:
                     if world.options.fruit_sanity != 2:
                         continue
-
-                region.locations.append(
-                    Crash2Location(world.player, location, world.location_name_to_id[location], region))
-                if "Impossible" in location and not world.options.speedrun_logic:
-                    world.get_location(location).place_locked_item(world.create_item("Life"))
+                new_location = Crash2Location(world.player, location, world.location_name_to_id[location], region)
+                if "*" in location:
+                    if world.options.exclude_difficult_wumpas:
+                        new_location.progress_type = LocationProgressType.EXCLUDED
+                region.locations.append( new_location)
     location = "Polar Lives Secret"
     region = world.get_region("Warp Room 2")
     region.locations.append(
