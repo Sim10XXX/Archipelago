@@ -172,6 +172,8 @@ def create_all_items(world: Crash2World) -> None:
     # You can just use this function directly to create as many filler items as you need to complete your itempool.
     itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
 
+    itempool[3].deprioritized
+
     # But... is that the right option for your game? Let's explore that.
     # For some games, the concepts of "regular itempool filler" and "additionally created filler" are different.
     # These games might want / require specific amounts of specific filler items in their regular pool.

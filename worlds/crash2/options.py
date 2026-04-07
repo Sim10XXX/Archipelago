@@ -59,7 +59,7 @@ class WumpaFruitChance(Range):
 
     range_start = 0
     range_end = 100
-    default = 0
+    default = 80
 
 class FruitSanity(Choice):
     """
@@ -81,6 +81,18 @@ class ExcludeDifficultWumpas(DefaultOnToggle):
     The specific location locations affected by this option are marked with a "*" in their name
     """
     display_name = "Exclude Difficult Wumpas"
+class FillWumpaChecksLocally(Range):
+    """
+    % chance to pre-emptively fill wumpa checks with a Crash 2 filler item
+    The purpose of this is to prevent games with fewer checks from being clogged with Crash 2 filler
+    This runs before the multiworld item placement algorithm and serves as a better alternative to using the default local_items option
+    You could also set this option to 100% and have traps enabled if you want an "avoid the wumpa fruit" gamemode
+    """
+    display_name = "Fill Wumpa Checks Locally Chance"
+
+    range_start = 0
+    range_end = 100
+    default = 70
 
 class RandomizeWarpDestinations(Toggle):
     """
@@ -159,6 +171,7 @@ class SmallCrashTrapWeight(Range):
     """
     Relative chance for a trap to be a Small Crash Trap
     This makes Crash smol
+    (Due to an issue with Polar + small Crash, this trap will be inactive in bear levels)
     Chance for a specific trap to be picked is weight / totalWeight
     """
     display_name = "Small Crash Trap Weight"
@@ -178,7 +191,7 @@ class SmallCrashSize(Range):
 
     range_start = 0
     range_end = 10000
-    default = 20
+    default = 33
 
 class BigCrashTrapWeight(Range):
 
@@ -237,6 +250,7 @@ class Crash2Options(PerGameCommonOptions):
     wumpa_chance: WumpaFruitChance
     fruit_sanity: FruitSanity
     exclude_difficult_wumpas: ExcludeDifficultWumpas
+    fill_wumpa_checks_locally_chance: FillWumpaChecksLocally
     randomize_warp_destinations: RandomizeWarpDestinations
     non_randomized_warp_destinations: NonRandomizedWarpDestinations
     trap_chance: TrapChance
@@ -247,21 +261,13 @@ class Crash2Options(PerGameCommonOptions):
     big_crash_size: BigCrashSize
     no_lives_weight: NoLivesTrapWeight
     jetpack_controls_weight: JetpackControlsTrapWeight
-    # hard_mode: HardMode
-    # hammer: Hammer
-    # extra_starting_chest: ExtraStartingChest
-    # start_with_one_confetti_cannon: StartWithOneConfettiCannon
-    # trap_chance: TrapChance
-    # confetti_explosiveness: ConfettiExplosiveness
-    # player_sprite: PlayerSprite
 
 #
 # # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
 option_groups = [
-
     OptionGroup(
         "Fruitsanity",
-        [FruitSanity, ExcludeDifficultWumpas],
+        [FruitSanity, ExcludeDifficultWumpas, FillWumpaChecksLocally],
     ),
     OptionGroup(
         "Warp Randomizer",

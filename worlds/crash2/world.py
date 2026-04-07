@@ -2,7 +2,7 @@ from collections.abc import Mapping
 from typing import Any
 
 # Imports of base Archipelago modules must be absolute.
-from worlds.AutoWorld import World
+from worlds.AutoWorld import World, WebWorld
 
 # Imports of your world's files must be relative.
 from . import items, locations, regions, rules, randomize_warp#, web_world
@@ -22,6 +22,15 @@ from . import options as crash2_options  # rename due to a name conflict with Wo
 # This implementation in particular has the following additional files, each covering one topic:
 # regions.py, locations.py, rules.py, items.py, options.py and web_world.py.
 # It is recommended that you read these in that specific order, then come back to the world class.
+class Crash2WebWorld(WebWorld):
+
+    # We need to override the "game" field of the WebWorld superclass.
+    # This must be the same string as the regular World class.
+    game = "Crash2"
+
+    theme = "grass"
+
+    option_groups = crash2_options.option_groups
 class Crash2World(World):
     """
     Crash Bandicoot 2: Cortex Strikes Back
@@ -32,6 +41,7 @@ class Crash2World(World):
     # You must override the "game" field to say the name of the game.
     game = "Crash2"
 
+    web = Crash2WebWorld()
     # The WebWorld is a definition class that governs how this world will be displayed on the website.
     #web = web_world.APQuestWebWorld()
 
@@ -50,6 +60,8 @@ class Crash2World(World):
     warp_room: list[int] = randomize_warp.warpRoomLevelIds
     secret_warp_room_levels = []
     secret_warp_room_entrance_ids = []
+
+
 
     # There is always one region that the generator starts from & assumes you can always go back to.
     # This defaults to "Menu", but you can change it by overriding origin_region_name.

@@ -317,6 +317,9 @@ def create_regular_locations(world: Crash2World) -> None:
                 if "*" in location:
                     if world.options.exclude_difficult_wumpas:
                         new_location.progress_type = LocationProgressType.EXCLUDED
+                if "Wumpa" in location:
+                    if world.random.randint(0, 99) < world.options.fill_wumpa_checks_locally_chance:
+                        new_location.place_locked_item(world.create_filler())
                 region.locations.append( new_location)
     location = "Polar Lives Secret"
     region = world.get_region("Warp Room 2")
