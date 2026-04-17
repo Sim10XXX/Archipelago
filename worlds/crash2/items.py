@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
+from Options import OptionError
 
 if TYPE_CHECKING:
     from .world import Crash2World
@@ -160,9 +161,11 @@ def create_all_items(world: Crash2World) -> None:
     # What we actually want is the number of *unfilled* locations. Luckily, there is a helper method for this:
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
 
+
     # Now, we just subtract the number of items from the number of locations to get the number of empty item slots.
     needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
-
+    if needed_number_of_filler_items < 0:
+        raise OptionError(f"Crash 2: There are {-needed_number_of_filler_items} more base items than locations. Reduce the number of extra crystals or add more locations (ex. turn on level exit checks or fruitsanity)", )
     # Finally, we create that many filler items and add them to the itempool.
     # To create our filler, we could just use world.create_item("Confetti Cannon").
     # But there is an alternative that works even better for most worlds, including APQuest.
