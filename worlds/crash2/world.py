@@ -76,8 +76,8 @@ class Crash2World(World):
                     passthrough = self.multiworld.re_gen_passthrough["Crash2"]
                     self.warp_room = passthrough["warp_room_destinations"]
             else:
-                self.warp_room = randomize_warp.shuffle_warp_room_destinations(self, self.options.non_randomized_warp_destinations.value)
-
+                secret_warps = ["Road to Ruin (Secret Entrance)", "Air Crash (Secret Entrance)", "Snow Go (Secret Entrance)", "Totally Bear", "Totally Fly"]
+                self.warp_room = randomize_warp.shuffle_warp_room_destinations(self, self.options.non_randomized_warp_destinations.value + secret_warps)
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
         locations.create_all_locations(self)

@@ -163,7 +163,7 @@ class TrapDuration(Range):
     display_name = "Trap Duration"
 
     range_start = 0
-    range_end = 1000
+    range_end = 600
     default = 30
 
 class SmallCrashTrapWeight(Range):
@@ -180,18 +180,18 @@ class SmallCrashTrapWeight(Range):
     range_end = 100
     default = 10
 
-class SmallCrashSize(Range):
-
-    """
-    For testing purposes, this option will be removed after pre-release
-    Extreme values will likely be unplayable
-    This value is read as a percent, so normal crash is size 100
-    """
-    display_name = "Small Crash Size"
-
-    range_start = 0
-    range_end = 10000
-    default = 33
+# class SmallCrashSize(Range):
+#
+#     """
+#     For testing purposes, this option will be removed after pre-release
+#     Extreme values will likely be unplayable
+#     This value is read as a percent, so normal crash is size 100
+#     """
+#     display_name = "Small Crash Size"
+#
+#     range_start = 0
+#     range_end = 10000
+#     default = 33
 
 class BigCrashTrapWeight(Range):
 
@@ -205,18 +205,18 @@ class BigCrashTrapWeight(Range):
     range_end = 100
     default = 10
 
-class BigCrashSize(Range):
-
-    """
-    For testing purposes, this option will be removed after pre-release
-    Extreme values will likely be unplayable
-    This value is read as a percent, so normal crash is size 100
-    """
-    display_name = "Big Crash Size"
-
-    range_start = 0
-    range_end = 10000
-    default = 150
+# class BigCrashSize(Range):
+#
+#     """
+#     For testing purposes, this option will be removed after pre-release
+#     Extreme values will likely be unplayable
+#     This value is read as a percent, so normal crash is size 100
+#     """
+#     display_name = "Big Crash Size"
+#
+#     range_start = 0
+#     range_end = 10000
+#     default = 150
 
 class NoLivesTrapWeight(Range):
     """
@@ -256,9 +256,9 @@ class Crash2Options(PerGameCommonOptions):
     trap_chance: TrapChance
     trap_duration: TrapDuration
     small_crash_weight: SmallCrashTrapWeight
-    small_crash_size: SmallCrashSize
+    # small_crash_size: SmallCrashSize
     big_crash_weight: BigCrashTrapWeight
-    big_crash_size: BigCrashSize
+    # big_crash_size: BigCrashSize
     no_lives_weight: NoLivesTrapWeight
     jetpack_controls_weight: JetpackControlsTrapWeight
 
@@ -275,7 +275,7 @@ option_groups = [
     ),
     OptionGroup(
         "Trap Options",
-        [TrapChance, TrapDuration, SmallCrashTrapWeight, SmallCrashSize, BigCrashTrapWeight, BigCrashSize, NoLivesTrapWeight, JetpackControlsTrapWeight],
+        [TrapChance, TrapDuration, SmallCrashTrapWeight, BigCrashTrapWeight, NoLivesTrapWeight, JetpackControlsTrapWeight],
     ),
 ]
 
