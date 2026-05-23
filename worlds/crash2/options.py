@@ -96,8 +96,8 @@ class FillWumpaChecksLocally(Range):
 
 class RandomizeWarpDestinations(Toggle):
     """
-    Randomize the destination of all 30 warp portals in the Warp Room.
-    This includes the three secret entrances, which means any portal can for example take you to Snow Go's secret path.
+    Randomize the destination of the 25 basic warp portals in the Warp Room.
+    This currently does not include the secret warp room.
     Bosses are not randomized.
     """
     display_name = "Randomize Warp Destinations"
@@ -247,6 +247,7 @@ class Crash2Options(PerGameCommonOptions):
     level_exit_locations: LevelExitLocations
     extra_crystals: AddExtraCrystals
     speedrun_logic: SpeedrunLogic
+    death_link: DeathLink
     wumpa_chance: WumpaFruitChance
     fruit_sanity: FruitSanity
     exclude_difficult_wumpas: ExcludeDifficultWumpas
