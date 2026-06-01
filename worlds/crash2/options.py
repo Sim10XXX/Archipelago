@@ -240,6 +240,77 @@ class JetpackControlsTrapWeight(Range):
     range_end = 100
     default = 10
 
+class GimmickLock(Toggle):
+    """
+    This serves as a universal toggle to disable locking the Jetpack, Jetboard, Fireflies, and Polar behind an item.
+    Each gimmick can be customized in how strict the logic rules are or be disabled completely.
+    Disabled: This gimmick will not be locked
+    If you don't have X gimmick unlocked, then:
+    Basic: An entire level that normally contains X gimmick will be out of logic
+    Normal: Anything that is trivial to obtain without X gimmick will be in logic
+    (trivial means it is either expected of you from the vanilla game or doesn't require any complex movement)
+    Lunatic: Anything that is possible to obtain without X gimmick will be in logic
+    """
+    display_name = "Gimmick Lock"
+
+class JetpackLockLogic(Choice):
+    """
+    Normal: puts most of the wumpa fruit in logic
+    Lunatic: getting through the invisible barrier is in logic
+    """
+    display_name = "Jetpack Lock Logic"
+
+    option_disabled = 0
+    option_basic = 1
+    option_normal = 2
+    option_lunatic = 3
+
+    default = option_basic
+
+
+class JetboardLockLogic(Choice):
+    """
+    Normal: a few wumpa fruit are put in logic along with the Air Crash secret exit
+    Nothing crazy is possible, so normal is equivalent to lunatic
+    """
+    display_name = "Jetboard Lock Logic"
+
+    option_disabled = 0
+    option_basic = 1
+    option_normal = 2
+    #option_lunatic = 3
+
+    default = option_basic
+
+
+class PolarLockLogic(Choice):
+    """
+    Normal: Bear It wumpa fruit and Un-Bearable wumpa fruit up to the Polar section are in logic
+    Lunatic: Everything except the Totally Bear box gem is in logic
+    """
+    display_name = "Polar Lock Logic"
+
+    option_disabled = 0
+    option_basic = 1
+    option_normal = 2
+    option_lunatic = 3
+
+    default = option_basic
+
+class FireflyLockLogic(Choice):
+    """
+    Normal: 3 wumpa fruit are available before doing anything in the dark
+    Lunatic: Everything except very missable wumpa fruit is in logic
+    """
+    display_name = "Firefly Lock Logic"
+
+    option_disabled = 0
+    option_basic = 1
+    option_normal = 2
+    option_lunatic = 3
+
+    default = option_basic
+
 # # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
@@ -263,6 +334,12 @@ class Crash2Options(PerGameCommonOptions):
     no_lives_weight: NoLivesTrapWeight
     jetpack_controls_weight: JetpackControlsTrapWeight
 
+    gimmick_lock: GimmickLock
+    jetpack_lock_logic: JetpackLockLogic
+    jetboard_lock_logic: JetboardLockLogic
+    polar_lock_logic: PolarLockLogic
+    firefly_lock_logic: FireflyLockLogic
+
 #
 # # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
 option_groups = [
@@ -277,6 +354,10 @@ option_groups = [
     OptionGroup(
         "Trap Options",
         [TrapChance, TrapDuration, SmallCrashTrapWeight, BigCrashTrapWeight, NoLivesTrapWeight, JetpackControlsTrapWeight],
+    ),
+    OptionGroup(
+        "Gimmick Lock",
+        [GimmickLock, JetpackLockLogic, JetboardLockLogic, PolarLockLogic, FireflyLockLogic],
     ),
 ]
 
