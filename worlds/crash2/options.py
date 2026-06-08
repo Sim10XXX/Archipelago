@@ -303,7 +303,7 @@ class PolarLockLogic(Choice):
 
 class FireflyLockLogic(Choice):
     """
-    Normal: 3 wumpa fruit are available before doing anything in the dark
+    Normal: 3 wumpa fruit are available (nothing in the dark is in logic)
     Lunatic: Everything (except very missable and un-fun wumpa fruit) is in logic
     """
     display_name = "Firefly Lock Logic"
