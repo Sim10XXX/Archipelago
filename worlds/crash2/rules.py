@@ -7,6 +7,8 @@ from worlds.generic.Rules import add_rule, set_rule
 
 from . import locations
 
+from .regions import crystal_counts
+
 if TYPE_CHECKING:
     from .world import Crash2World
 
@@ -119,6 +121,16 @@ def set_all_entrance_rules(world: Crash2World) -> None:
              lambda state: state.has("Totally Bear: Secret Entrance", world.player))
     set_rule(world.get_entrance("Warp Room 6 to " + world.secret_warp_room_levels[0]),
              lambda state: state.has("Totally Fly: Secret Entrance", world.player))
+
+
+    # set rules for crystal count regions
+    if len(crystal_counts) > 0:
+        region = "Warp Room 1"
+        for count in crystal_counts:
+            next_region = str(count) + " Crystals"
+            set_rule(world.get_entrance(region + " to " + next_region), lambda state: state.has("Crystal", world.player, count))
+            region = next_region
+
     # Conditions can depend on event items.
     # set_rule(right_room_to_final_boss_room, lambda state: state.has("Top Left Room Button Pressed", world.player))
 
@@ -251,14 +263,15 @@ def set_all_location_rules(world: Crash2World) -> None:
             if world.options.jetpack_lock_logic < 3:
                 add_rule(world.get_location("Rock It: Clear Gem (Box Gem)"),
                          lambda state: state.has("Jetpack", world.player))
-                add_rule(world.get_location("Rock It: Regular Exit"),
-                         lambda state: state.has("Jetpack", world.player))
                 add_rule(world.get_location("Pack Attack: Clear Gem (Box Gem)"),
                          lambda state: state.has("Jetpack", world.player))
                 add_rule(world.get_location("Pack Attack: Crystal"),
                          lambda state: state.has("Jetpack", world.player))
-                add_rule(world.get_location("Pack Attack: Regular Exit"),
-                         lambda state: state.has("Jetpack", world.player))
+                if world.options.level_exit_locations:
+                    add_rule(world.get_location("Rock It: Regular Exit"),
+                             lambda state: state.has("Jetpack", world.player))
+                    add_rule(world.get_location("Pack Attack: Regular Exit"),
+                             lambda state: state.has("Jetpack", world.player))
         if world.options.jetboard_lock_logic > 0: # If jetboard lock is enabled
             add_rule(world.get_location("Hang Eight: Clear Gem (Box Gem)"),
                      lambda state: state.has("Jetboard", world.player))
@@ -266,15 +279,11 @@ def set_all_location_rules(world: Crash2World) -> None:
                      lambda state: state.has("Jetboard", world.player))
             add_rule(world.get_location("Hang Eight: Crystal"),
                      lambda state: state.has("Jetboard", world.player))
-            add_rule(world.get_location("Hang Eight: Regular Exit"),
-                     lambda state: state.has("Jetboard", world.player))
             add_rule(world.get_location("Air Crash: Clear Gem (Box Gem)"),
                      lambda state: state.has("Jetboard", world.player))
             add_rule(world.get_location("Air Crash: Clear Gem (Death Route)"),
                      lambda state: state.has("Jetboard", world.player))
             add_rule(world.get_location("Air Crash: Crystal"),
-                     lambda state: state.has("Jetboard", world.player))
-            add_rule(world.get_location("Air Crash: Regular Exit"),
                      lambda state: state.has("Jetboard", world.player))
             add_rule(world.get_location("Plant Food: Clear Gem (Box Gem)"),
                      lambda state: state.has("Jetboard", world.player))
@@ -282,8 +291,13 @@ def set_all_location_rules(world: Crash2World) -> None:
                      lambda state: state.has("Jetboard", world.player))
             add_rule(world.get_location("Plant Food: Crystal"),
                      lambda state: state.has("Jetboard", world.player))
-            add_rule(world.get_location("Plant Food: Regular Exit"),
-                     lambda state: state.has("Jetboard", world.player))
+            if world.options.level_exit_locations:
+                add_rule(world.get_location("Hang Eight: Regular Exit"),
+                         lambda state: state.has("Jetboard", world.player))
+                add_rule(world.get_location("Air Crash: Regular Exit"),
+                         lambda state: state.has("Jetboard", world.player))
+                add_rule(world.get_location("Plant Food: Regular Exit"),
+                         lambda state: state.has("Jetboard", world.player))
             if world.options.jetboard_lock_logic == 1:
                 add_rule(world.get_location("Air Crash: Secret Exit"),
                          lambda state: state.has("Jetboard", world.player))
@@ -294,20 +308,17 @@ def set_all_location_rules(world: Crash2World) -> None:
                      lambda state: state.has("Polar", world.player))
             add_rule(world.get_location("Totally Bear: Clear Gem (Box Gem)"),
                      lambda state: state.has("Polar", world.player))
-            add_rule(world.get_location("Totally Bear: Regular Exit"),
-                     lambda state: state.has("Polar", world.player))
+            if world.options.level_exit_locations:
+                add_rule(world.get_location("Totally Bear: Regular Exit"),
+                         lambda state: state.has("Polar", world.player))
             if world.options.polar_lock_logic < 3:
                 add_rule(world.get_location("Bear It: Clear Gem (Box Gem)"),
                          lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Bear It: Crystal"),
                          lambda state: state.has("Polar", world.player))
-                add_rule(world.get_location("Bear It: Regular Exit"),
-                         lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Bear Down: Clear Gem (Box Gem)"),
                          lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Bear Down: Crystal"),
-                         lambda state: state.has("Polar", world.player))
-                add_rule(world.get_location("Bear Down: Regular Exit"),
                          lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Bear Down: Secret Exit"),
                          lambda state: state.has("Polar", world.player))
@@ -317,17 +328,21 @@ def set_all_location_rules(world: Crash2World) -> None:
                          lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Un-Bearable: Crystal"),
                          lambda state: state.has("Polar", world.player))
-                add_rule(world.get_location("Un-Bearable: Regular Exit"),
-                         lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Un-Bearable: Secret Exit"),
                          lambda state: state.has("Polar", world.player))
                 add_rule(world.get_location("Un-Bearable: Secret Exit Event"),
                          lambda state: state.has("Polar", world.player))
+                if world.options.level_exit_locations:
+                    add_rule(world.get_location("Bear It: Regular Exit"),
+                             lambda state: state.has("Polar", world.player))
+                    add_rule(world.get_location("Bear Down: Regular Exit"),
+                             lambda state: state.has("Polar", world.player))
+                    add_rule(world.get_location("Un-Bearable: Regular Exit"),
+                             lambda state: state.has("Polar", world.player))
+
         if world.options.firefly_lock_logic > 0: # If firefly lock is enabled
             if world.options.firefly_lock_logic < 3:
                 add_rule(world.get_location("Totally Fly: Clear Gem (Box Gem)"),
-                         lambda state: state.has("Fireflies", world.player))
-                add_rule(world.get_location("Totally Fly: Regular Exit"),
                          lambda state: state.has("Fireflies", world.player))
                 add_rule(world.get_location("Night Fight: Clear Gem (Box Gem)"),
                          lambda state: state.has("Fireflies", world.player))
@@ -335,8 +350,11 @@ def set_all_location_rules(world: Crash2World) -> None:
                          lambda state: state.has("Fireflies", world.player))
                 add_rule(world.get_location("Night Fight: Crystal"),
                          lambda state: state.has("Fireflies", world.player))
-                add_rule(world.get_location("Night Fight: Regular Exit"),
-                         lambda state: state.has("Fireflies", world.player))
+                if world.options.level_exit_locations:
+                    add_rule(world.get_location("Totally Fly: Regular Exit"),
+                             lambda state: state.has("Fireflies", world.player))
+                    add_rule(world.get_location("Night Fight: Regular Exit"),
+                             lambda state: state.has("Fireflies", world.player))
 
 
 
