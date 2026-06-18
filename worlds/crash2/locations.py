@@ -303,8 +303,8 @@ def prepare_life_count_locations() -> None:
     max_count = 99
     location_id = 1000
     for life_count in range(min_count, max_count+1):
-        LOCATION_NAME_TO_ID[str(life_count) + " lives"] = location_id
-        location_id += 1
+        LOCATION_NAME_TO_ID[str(life_count) + " lives"] = location_id + life_count
+        #location_id += 1
 
 
 def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | None]:
@@ -362,10 +362,11 @@ def create_regular_locations(world: Crash2World) -> None:
         total_crystals = world.options.extra_crystals + 25
         for count in world.options.life_count_checks.value:
             count = int(count)
-            required_crystals = ((count - min_life_count) / life_count_range) * total_crystals
+            required_crystals = int(((count - min_life_count) / life_count_range) * total_crystals)
             region = world.get_region(str(required_crystals) + " Crystals")
             location_name = str(count) + " lives"
             region.locations.append(Crash2Location(world.player, location_name, world.location_name_to_id[location_name], region))
+            #print("Placing "+ location_name + " into " + region.name)
 
     # region = world.get_region("Dr. Neo Cortex")
     # location = ""

@@ -128,7 +128,8 @@ def set_all_entrance_rules(world: Crash2World) -> None:
         region = "Warp Room 1"
         for count in crystal_counts:
             next_region = str(count) + " Crystals"
-            set_rule(world.get_entrance(region + " to " + next_region), lambda state: state.has("Crystal", world.player, count))
+            set_rule(world.get_entrance(region + " to " + next_region), lambda state, count=count: state.has("Crystal", world.player, count))
+            #print(region + " to " + next_region + " takes " + str(count) + " Crystals")
             region = next_region
 
     # Conditions can depend on event items.

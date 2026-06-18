@@ -62,10 +62,12 @@ def create_all_regions(world: Crash2World) -> None:
         total_crystals = world.options.extra_crystals + 25
         for count in world.options.life_count_checks.value:
             count = int(count)
-            required_crystals = ((count - min_life_count) / life_count_range) * total_crystals
+            required_crystals = int(((count - min_life_count) / life_count_range) * total_crystals)
             if required_crystals not in crystal_counts:
                 crystal_counts.append(required_crystals)
                 regions.append(Region(str(required_crystals) + " Crystals", world.player, world.multiworld))
+                #print("Creating region " + str(required_crystals) + " Crystals")
+        crystal_counts.sort()
 
     # We now need to add these regions to multiworld.regions so that AP knows about their existence.
     world.multiworld.regions += regions
@@ -130,6 +132,7 @@ def connect_regions(world: Crash2World) -> None:
         for count in crystal_counts:
             next_region = world.get_region(str(count) + " Crystals")
             region.connect(next_region, region.name + " to " + next_region.name)
+            #print("Connecting " + region.name + " to " + next_region.name)
             region = next_region
 
 
