@@ -183,10 +183,11 @@ def set_all_location_rules(world: Crash2World) -> None:
     # # and instead having two *different* set_rule calls depending on which case we're in.
 
 
-    # handle some general rules for wumpa checks
-    if world.options.fruit_sanity != 0:
+    # handle some general rules for item checks
+    if world.options.fruit_sanity != 0 or world.options.life_sanity:
+        spaced_out_gem_order = ["Blue", "Green", "Yellow", "Red", "Purple"]
         for location in world.get_locations():
-            if "Wumpa" not in location.name:
+            if "Wumpa" not in location.name and "Life" not in location.name:
                 continue
             level_name = ""
             for name in locations.levelNameToId:
@@ -217,11 +218,20 @@ def set_all_location_rules(world: Crash2World) -> None:
             elif "Gem Path" in location.name:
                 split_location = location.name.split(" ")
                 gem_color = split_location[split_location.index("Gem") - 1]
-                if gem_color == "Green" and world.options.speedrun_logic:
-                    continue
-                access_item = gem_color + " Gem"
-                add_rule(location,
-                         lambda state, access_item=access_item: state.has(access_item, world.player))
+                if "Life" in location.name:
+                    # The only level with gem path lives is Spaced Out, so we don't need to check for level name
+                    start = spaced_out_gem_order.index(gem_color)
+                    for i in range(start, -1, -1):
+                        print(gem_color, i)
+                        access_item = spaced_out_gem_order[i] + " Gem"
+                        add_rule(location,
+                                 lambda state, access_item=access_item: state.has(access_item, world.player))
+                else:
+                    if gem_color == "Green" and world.options.speedrun_logic:
+                        continue
+                    access_item = gem_color + " Gem"
+                    add_rule(location,
+                             lambda state, access_item=access_item: state.has(access_item, world.player))
                 # print("rule: " + location.name + ", needs: " + gem_color + " Gem")
 
 
