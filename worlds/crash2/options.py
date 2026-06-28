@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from Options import Toggle, DefaultOnToggle, Option, Range, Choice, ItemDict, OptionList, DeathLink, PerGameCommonOptions
+from Options import Toggle, DefaultOnToggle, Option, Range, Choice, ItemDict, OptionList, DeathLink, \
+    PerGameCommonOptions, FreeText
 from Options import OptionGroup, OptionSet
 
 
@@ -73,14 +74,28 @@ class LifeSanity(Toggle):
     """
     display_name = "Life-Sanity"
 
-
-class LifeCountChecks(OptionSet):
+class LifeCountChecksRange(FreeText):
     """
     Add checks for reaching certain life counts
     Logic uses crystal count in order to consider higher life counts as occurring later in the run
-    These need to be written as strings
+    This works like the Python Range function, so the first number is the start point,
+    second number is the stop point (not inclusive), and the third is the step size
+    Example: "10, 31, 10" will add checks for collecting 10, 20, and 30 lives
+
+    Values that fall outside the range of 5-99 will be ignored
+
+    Setting step size to 0 will disable this option, so just use something like "0, 0, 0"
     """
-    display_name = "Life Count Checks"
+
+    display_name = "Life Count Checks (Range)"
+    default = "10, 31, 10"
+
+class LifeCountChecksCustom(OptionSet):
+    """
+    Add any custom values to the previous option
+    These need to be written as strings. Valid values are in the range 5 - 99
+    """
+    display_name = "Life Count Checks (Custom)"
     #valid_keys = range(5, 100)
     valid_keys = []
     for i in range(5, 100):
@@ -350,7 +365,8 @@ class Crash2Options(PerGameCommonOptions):
     death_link: DeathLink
     wumpa_chance: WumpaFruitChance
     life_sanity: LifeSanity
-    life_count_checks: LifeCountChecks
+    life_count_checks_range: LifeCountChecksRange
+    life_count_checks_custom: LifeCountChecksCustom
     fruit_sanity: FruitSanity
     exclude_difficult_wumpas: ExcludeDifficultWumpas
     fill_wumpa_checks_locally_chance: FillWumpaChecksLocally
@@ -376,7 +392,7 @@ class Crash2Options(PerGameCommonOptions):
 option_groups = [
     OptionGroup(
         "Collection Checks",
-        [LifeSanity, LifeCountChecks, FruitSanity, ExcludeDifficultWumpas, FillWumpaChecksLocally],
+        [LifeSanity, LifeCountChecksRange, LifeCountChecksCustom, FruitSanity, ExcludeDifficultWumpas, FillWumpaChecksLocally],
     ),
     OptionGroup(
         "Warp Randomizer",

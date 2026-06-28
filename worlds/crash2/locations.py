@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import ItemClassification, Location, LocationProgressType
+from Options import OptionError
 
 from . import items
 
@@ -232,6 +233,7 @@ level_lookup = {**warp_1, **warp_2, **warp_3, **warp_4, **warp_5, **warp_6}
 
 # Fruit_Sanity_Data = {}
 
+life_count_checks = []
 
 # Each Location instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Location class and override the "game" field.
@@ -289,6 +291,7 @@ def prepare_item_sanity():
                         level_name = new_level_name
                     bundle_location_name = level_name + " " + bundle_name + " Life"
                     LOCATION_NAME_TO_ID[bundle_location_name] = life_id
+                    # print("Adding: " + bundle_location_name + " | id: " + str(life_id))
                     life_id += 1
                 bundle_name = line.replace("#", "")
                 level_name = new_level_name
@@ -302,8 +305,7 @@ def prepare_item_sanity():
 # so while our function here only ever returns dict[str, int], we annotate it as dict[str, int | None].
 
 def prepare_life_count_locations() -> None:
-    #min_life_count = min(world.options.life_count_checks.valid_keys)
-    #max_life_count = max(world.options.life_count_checks.valid_keys)
+    # Give a name/ID to every possible life count location
     min_count = 5
     max_count = 99
     location_id = 1000
@@ -360,21 +362,20 @@ def create_regular_locations(world: Crash2World) -> None:
     region.locations.append(
         Crash2Location(world.player, location, world.location_name_to_id[location], region))
 
-    if len(world.options.life_count_checks.value) > 0:
+    if len(life_count_checks) > 0:
         # If we have any life count checks enabled, create the locations in their expected region
         # This is mostly copy/paste from the region creation code
-
         min_life_count = 5
         max_life_count = 99
         life_count_range = max_life_count - min_life_count
         total_crystals = world.options.extra_crystals + 25
-        for count in world.options.life_count_checks.value:
-            count = int(count)
+        for count in life_count_checks:
+            # count = int(count)
             required_crystals = int(((count - min_life_count) / life_count_range) * total_crystals)
             region = world.get_region(str(required_crystals) + " Crystals")
             location_name = "Collect " + str(count) + " Lives"
             region.locations.append(Crash2Location(world.player, location_name, world.location_name_to_id[location_name], region))
-            #print("Placing "+ location_name + " into " + region.name)
+            # print("Placing "+ location_name + " into " + region.name)
 
     # region = world.get_region("Dr. Neo Cortex")
     # location = ""

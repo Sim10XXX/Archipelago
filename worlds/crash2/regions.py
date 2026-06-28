@@ -3,9 +3,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import Entrance, Region
+from Options import OptionError
 
 from .locations import levelIdToName, levelNameToId
 from .randomize_warp import warpRoomBossLevelIds
+
+from .locations import life_count_checks
 
 if TYPE_CHECKING:
     from .world import Crash2World
@@ -20,6 +23,7 @@ if TYPE_CHECKING:
 # This is why we create regions first, and then later we create the locations (in locations.py).
 
 crystal_counts = []
+#life_count_checks = []
 
 def create_and_connect_regions(world: Crash2World) -> None:
     create_all_regions(world)
@@ -50,9 +54,51 @@ def create_all_regions(world: Crash2World) -> None:
     # if world.options.hammer:
     #     top_middle_room = Region("Top Middle Room", world.player, world.multiworld)
     #     regions.append(top_middle_room)
+    # print(world.options.life_count_checks_range.value.split(","))
+    # life_count_checks = []
+    life_range_int = []
+    # Validate that Life Count Checks (Range) is in the expected format
+    try:
+        life_range = world.options.life_count_checks_range.value.split(",")
+        if len(life_range) != 3:
+            raise OptionError(
+                f"Expected 3 comma separated values for life_count_checks_range, got {len(life_range)}")
+        for v in life_range:
+            life_range_int.append(int(v))
+    except ValueError as e:
+        raise OptionError(f"Unable to convert life count range values to int: {e}")
 
+    # Add the range
+    start = life_range_int[0]
+    stop = life_range_int[1]
+    step = life_range_int[2]
+    # step == 0 disables the range option
+    if step != 0:
+        # Simplify the range function, in order to protect against absurd YAML values
+        # like for example "-2147483648, 2147483647, 1"
+        if step > 0:
+            if stop > 100:
+                stop = 100
+            # start + step < 5
+            if start < 5:
+                # (5 - start) % step
+                start = 5 - (5 - start) % step
+        else:
+            if stop < 4:
+                stop = 4
+            if start > 99:
+                # (start - 99) % step
+                start = 99 + (99 - start) % step
+        for i in range(start, stop, step):
+            # if i < 5 or i > 99: continue
+            life_count_checks.append(i)
+    # Add the custom values
+    for count in world.options.life_count_checks_custom.value:
+        count = int(count)
+        if count not in life_count_checks:
+            life_count_checks.append(count)
 
-    if len(world.options.life_count_checks.value) > 0:
+    if len(life_count_checks) > 0:
         # if we have any life count checks enabled, create abstract regions for the sake of placing
         # higher life counts logically later into the run
 
@@ -60,8 +106,8 @@ def create_all_regions(world: Crash2World) -> None:
         max_life_count = 99
         life_count_range = max_life_count - min_life_count
         total_crystals = world.options.extra_crystals + 25
-        for count in world.options.life_count_checks.value:
-            count = int(count)
+        for count in life_count_checks:
+            # count = int(count)
             required_crystals = int(((count - min_life_count) / life_count_range) * total_crystals)
             if required_crystals not in crystal_counts:
                 crystal_counts.append(required_crystals)

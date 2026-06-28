@@ -154,9 +154,10 @@ class Crash2World(World):
         # If you need access to the player's chosen options on the client side, there is a helper for that.
         return {
             "options": self.options.as_dict(
-                "level_exit_locations", "speedrun_logic", "exclude_difficult_wumpas", "fruit_sanity", "life_sanity", "life_count_checks", "randomize_warp_destinations", "non_randomized_warp_destinations",
+                "level_exit_locations", "speedrun_logic", "exclude_difficult_wumpas", "fruit_sanity", "life_sanity", "randomize_warp_destinations", "non_randomized_warp_destinations",
                 "trap_duration", "death_link", "gimmick_lock", "jetpack_lock_logic", "jetboard_lock_logic", "polar_lock_logic", "firefly_lock_logic"
             ),
+            "life_count_checks" : locations.life_count_checks,
             "warp_room_destinations": self.warp_room,
             "secret_warp_room_entrances": self.secret_warp_room_entrance_ids,
             "seed": self.multiworld.seed_name,  # to verify the server's multiworld
