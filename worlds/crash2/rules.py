@@ -222,7 +222,7 @@ def set_all_location_rules(world: Crash2World) -> None:
                     # The only level with gem path lives is Spaced Out, so we don't need to check for level name
                     start = spaced_out_gem_order.index(gem_color)
                     for i in range(start, -1, -1):
-                        print(gem_color, i)
+                        #print(gem_color, i)
                         access_item = spaced_out_gem_order[i] + " Gem"
                         add_rule(location,
                                  lambda state, access_item=access_item: state.has(access_item, world.player))
