@@ -8,7 +8,7 @@ from Options import OptionError
 from .locations import levelIdToName, levelNameToId
 from .randomize_warp import warpRoomBossLevelIds
 
-from .locations import life_count_checks
+# from .locations import life_count_checks
 
 if TYPE_CHECKING:
     from .world import Crash2World
@@ -22,8 +22,8 @@ if TYPE_CHECKING:
 # Every location must be inside a region, and you must have at least one region.
 # This is why we create regions first, and then later we create the locations (in locations.py).
 
-crystal_counts = []
-#life_count_checks = []
+# crystal_counts = []
+# life_count_checks = []
 
 def create_and_connect_regions(world: Crash2World) -> None:
     create_all_regions(world)
@@ -39,9 +39,14 @@ def create_all_regions(world: Crash2World) -> None:
     # final_boss_room = Region("Final Boss Room", world.player, world.multiworld)
 
     regions = []
+    world.life_count_checks[world.player] = []
+    world.crystal_counts[world.player] = []
+
+    life_count_checks = world.life_count_checks[world.player]
+    crystal_counts = world.crystal_counts[world.player]
+
     for i in range(6): # Warp room 6 is the secret warp room
         regions.append(Region("Warp Room "+str(i+1), world.player, world.multiworld))
-
 
     for name in levelNameToId:
         regions.append(Region(name, world.player, world.multiworld))
@@ -55,7 +60,7 @@ def create_all_regions(world: Crash2World) -> None:
     #     top_middle_room = Region("Top Middle Room", world.player, world.multiworld)
     #     regions.append(top_middle_room)
     # print(world.options.life_count_checks_range.value.split(","))
-    # life_count_checks = []
+
     life_range_int = []
     # Validate that Life Count Checks (Range) is in the expected format
     try:
@@ -90,7 +95,7 @@ def create_all_regions(world: Crash2World) -> None:
                 # (start - 99) % step
                 start = 99 + (99 - start) % step
         for i in range(start, stop, step):
-            # if i < 5 or i > 99: continue
+            if i < 5 or i > 99: continue
             life_count_checks.append(i)
     # Add the custom values
     for count in world.options.life_count_checks_custom.value:
@@ -173,6 +178,7 @@ def connect_regions(world: Crash2World) -> None:
 
 
     # Connect crystal count regions in a chain
+    crystal_counts = world.crystal_counts[world.player]
     if len(crystal_counts) > 0:
         region = world.get_region("Warp Room 1")
         for count in crystal_counts:

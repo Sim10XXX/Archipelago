@@ -2,7 +2,7 @@ from collections.abc import Mapping
 from collections import defaultdict
 from typing import Any
 
-import worlds.tunic.ut_stuff
+# import worlds.tunic.ut_stuff
 # Imports of base Archipelago modules must be absolute.
 from worlds.AutoWorld import World, WebWorld
 
@@ -107,6 +107,9 @@ class Crash2World(World):
     secret_warp_room_levels = []
     secret_warp_room_entrance_ids = []
 
+    life_count_checks = {}
+    crystal_counts = {}
+
     # There is always one region that the generator starts from & assumes you can always go back to.
     # This defaults to "Menu", but you can change it by overriding origin_region_name.
     origin_region_name = "Warp Room 1"
@@ -157,7 +160,7 @@ class Crash2World(World):
                 "level_exit_locations", "speedrun_logic", "exclude_difficult_wumpas", "fruit_sanity", "life_sanity", "randomize_warp_destinations", "non_randomized_warp_destinations",
                 "trap_duration", "death_link", "gimmick_lock", "jetpack_lock_logic", "jetboard_lock_logic", "polar_lock_logic", "firefly_lock_logic"
             ),
-            "life_count_checks" : locations.life_count_checks,
+            "life_count_checks" : self.life_count_checks[self.player],
             "warp_room_destinations": self.warp_room,
             "secret_warp_room_entrances": self.secret_warp_room_entrance_ids,
             "seed": self.multiworld.seed_name,  # to verify the server's multiworld

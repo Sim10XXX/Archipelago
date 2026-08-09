@@ -7,7 +7,7 @@ from worlds.generic.Rules import add_rule, set_rule
 
 from . import locations
 
-from .regions import crystal_counts
+# from .regions import crystal_counts
 
 if TYPE_CHECKING:
     from .world import Crash2World
@@ -124,6 +124,7 @@ def set_all_entrance_rules(world: Crash2World) -> None:
 
 
     # set rules for crystal count regions
+    crystal_counts = world.crystal_counts[world.player]
     if len(crystal_counts) > 0:
         region = "Warp Room 1"
         for count in crystal_counts:

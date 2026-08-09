@@ -233,7 +233,7 @@ level_lookup = {**warp_1, **warp_2, **warp_3, **warp_4, **warp_5, **warp_6}
 
 # Fruit_Sanity_Data = {}
 
-life_count_checks = []
+# life_count_checks = []
 
 # Each Location instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Location class and override the "game" field.
@@ -361,7 +361,7 @@ def create_regular_locations(world: Crash2World) -> None:
     region = world.get_region("Warp Room 2")
     region.locations.append(
         Crash2Location(world.player, location, world.location_name_to_id[location], region))
-
+    life_count_checks = world.life_count_checks[world.player]
     if len(life_count_checks) > 0:
         # If we have any life count checks enabled, create the locations in their expected region
         # This is mostly copy/paste from the region creation code
