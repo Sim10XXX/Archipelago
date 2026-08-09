@@ -200,14 +200,18 @@ def set_all_location_rules(world: Crash2World) -> None:
                 if gimmick is not None:
                     logic_level = gimmick_option(world, gimmick)
                     if logic_level > 0:
-                        if (    (logic_level == 1) or
-                                (logic_level == 2 and "^" not in location.name) or
-                                (logic_level == 3 and "^" not in location.name and "&" not in location.name)):
+                        item_logic_level = locations.Item_Location_Logic_Data[location.name]
+                        # if (    (logic_level == 1) or
+                        #         (logic_level == 2 and "^" not in location.name) or
+                        #         (logic_level == 3 and "^" not in location.name and "&" not in location.name)):
+                        if ((logic_level == 1) or
+                                (logic_level == 2 and item_logic_level != 1) or
+                                (logic_level == 3 and item_logic_level == 0)):
                             #print(f"Location : {location.name}, gimmick : {gimmick}")
                             add_rule(location,
                                      lambda state, gimmick=gimmick: state.has(gimmick, world.player))
-            location.name = location.name.replace("&", "")
-            location.name = location.name.replace("^", "")
+            # location.name = location.name.replace("&", "")
+            # location.name = location.name.replace("^", "")
             if "Secret Entrance" in location.name:
                 #level_name = location.name[:location.name.find(" Secret Entrance")]
                 if level_name == "Road to Ruin" and world.options.speedrun_logic:

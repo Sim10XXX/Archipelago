@@ -231,7 +231,14 @@ warp_5 = dict.fromkeys(["Piston it Away", "Rock It", "Night Fight", "Pack Attack
 warp_6 = dict.fromkeys(["Totally Bear", "Totally Fly"], "Warp 6")
 level_lookup = {**warp_1, **warp_2, **warp_3, **warp_4, **warp_5, **warp_6}
 
-# Fruit_Sanity_Data = {}
+# Logic levels are defined like an Enum, but I don't feel like actually importing the Enum module
+# This is being stored in this dictionary when we programmatically define the rest of LOCATION_NAME_TO_ID
+# because we will be removing '^' and '&' from the names to avoid issues where these symbols stick around
+# To the final names of each check
+# 0 = Nothing
+# 1 = Trivial ('^')
+# 2 = Hard but possible ('&')
+Item_Location_Logic_Data = {}
 
 # life_count_checks = []
 
@@ -246,6 +253,7 @@ def prepare_item_sanity():
     level_name = ""
     new_level_name = ""
     bundle_name = ""
+    logic_level = 0
     bundle_location_name = ""
     wumpa_location_name = ""
     location_name = ""
@@ -266,20 +274,29 @@ def prepare_item_sanity():
                         level_name = new_level_name
                     bundle_location_name = level_name + " " + bundle_name + " Bundle (" + str(wumpa_count) + " Wumpas)"
                     LOCATION_NAME_TO_ID[bundle_location_name] = bundle_id
+                    Item_Location_Logic_Data[bundle_location_name] = logic_level
                     bundle_id += 1
                     wumpa_count = 0
                 bundle_name = line.replace("#", "")
-                # Fruit_Sanity_Data[level_name][bundle_name] = ([], bundle_id)
+                logic_level = 0
+                if '^' in bundle_name:
+                    bundle_name = bundle_name.replace('^', '')
+                    logic_level = 1
+                elif '&' in bundle_name:
+                    bundle_name = bundle_name.replace('&', '')
+                    logic_level = 2
                 level_name = new_level_name
                 location_name = level_name + " " + bundle_name
         elif len(line.split("-")) == 2:
             wumpa_count += 1
             wumpa_location_name = location_name + " Wumpa #" + str(wumpa_count)
             LOCATION_NAME_TO_ID[wumpa_location_name] = wumpa_id
+            Item_Location_Logic_Data[wumpa_location_name] = logic_level
             wumpa_id += 1
     level_name = ""
     new_level_name = ""
     bundle_name = ""
+    logic_level = 0
     for line in data.lifebundlestxt.splitlines():
         if line[0] == "#":
             if "level: " in line:
@@ -291,9 +308,17 @@ def prepare_item_sanity():
                         level_name = new_level_name
                     bundle_location_name = level_name + " " + bundle_name + " Life"
                     LOCATION_NAME_TO_ID[bundle_location_name] = life_id
+                    Item_Location_Logic_Data[bundle_location_name] = logic_level
                     # print("Adding: " + bundle_location_name + " | id: " + str(life_id))
                     life_id += 1
                 bundle_name = line.replace("#", "")
+                logic_level = 0
+                if '^' in bundle_name:
+                    bundle_name = bundle_name.replace('^', '')
+                    logic_level = 1
+                elif '&' in bundle_name:
+                    bundle_name = bundle_name.replace('&', '')
+                    logic_level = 2
                 level_name = new_level_name
                 # location_name = level_name + " " + bundle_name
 
