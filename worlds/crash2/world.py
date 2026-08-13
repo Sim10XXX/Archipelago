@@ -158,7 +158,7 @@ class Crash2World(World):
         return {
             "options": self.options.as_dict(
                 "level_exit_locations", "speedrun_logic", "exclude_difficult_wumpas", "fruit_sanity", "life_sanity", "randomize_warp_destinations", "non_randomized_warp_destinations",
-                "trap_duration", "death_link", "gimmick_lock", "jetpack_lock_logic", "jetboard_lock_logic", "polar_lock_logic", "firefly_lock_logic"
+                "trap_duration", "death_link", "death_link_amnesty", "gimmick_lock", "jetpack_lock_logic", "jetboard_lock_logic", "polar_lock_logic", "firefly_lock_logic"
             ),
             "life_count_checks" : self.life_count_checks[self.player],
             "warp_room_destinations": self.warp_room,

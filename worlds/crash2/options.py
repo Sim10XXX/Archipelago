@@ -54,6 +54,16 @@ class SpeedrunLogic(OptionSet):
     display_name = "Speedrun Logic"
     valid_keys = ["red_gem_early", "road_to_ruin_gem", "ruination_skip_green"]
     default = []
+    
+class DeathLinkAmnesty(Range):
+    """
+    Set an x amount of deaths required to send a deathlink to the server
+    """
+    display_name = "Death Link Amnesty"
+
+    range_start = 1
+    range_end = 10
+    default = 3
 
 class WumpaFruitChance(Range):
 
@@ -363,6 +373,7 @@ class Crash2Options(PerGameCommonOptions):
     extra_crystals: AddExtraCrystals
     speedrun_logic: SpeedrunLogic
     death_link: DeathLink
+    death_link_amnesty: DeathLinkAmnesty
     wumpa_chance: WumpaFruitChance
     life_sanity: LifeSanity
     life_count_checks_range: LifeCountChecksRange
