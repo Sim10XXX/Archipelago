@@ -84,7 +84,7 @@ class Crash2World(World):
     # The docstring should contain a description of the game, to be displayed on the WebHost.
 
     # You must override the "game" field to say the name of the game.
-    game = "Crash2"
+    game = "Crash 2"
     web = Crash2WebWorld()
     # The WebWorld is a definition class that governs how this world will be displayed on the website.
     #web = web_world.APQuestWebWorld()
@@ -121,8 +121,8 @@ class Crash2World(World):
 
         if self.options.randomize_warp_destinations.value:
             if hasattr(self.multiworld, "re_gen_passthrough"):
-                if "Crash2" in self.multiworld.re_gen_passthrough:
-                    passthrough = self.multiworld.re_gen_passthrough["Crash2"]
+                if "Crash 2" in self.multiworld.re_gen_passthrough:
+                    passthrough = self.multiworld.re_gen_passthrough["Crash 2"]
                     self.warp_room = passthrough["warp_room_destinations"]
             else:
                 secret_warps = ["Road to Ruin (Secret Entrance)", "Air Crash (Secret Entrance)", "Snow Go (Secret Entrance)", "Totally Bear", "Totally Fly"]
@@ -158,7 +158,7 @@ class Crash2World(World):
         return {
             "options": self.options.as_dict(
                 "level_exit_locations", "speedrun_logic", "exclude_difficult_wumpas", "fruit_sanity", "life_sanity", "randomize_warp_destinations", "non_randomized_warp_destinations",
-                "trap_duration", "death_link", "death_link_amnesty", "gimmick_lock", "jetpack_lock_logic", "jetboard_lock_logic", "polar_lock_logic", "firefly_lock_logic"
+                "trap_duration", "death_link", "death_link_amnesty", "gimmick_lock", "jetpack_lock_logic", "jetboard_lock_logic", "polar_lock_logic", "firefly_lock_logic", "ability_lock", "ability_lock_logic"
             ),
             "life_count_checks" : self.life_count_checks[self.player],
             "warp_room_destinations": self.warp_room,

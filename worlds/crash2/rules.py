@@ -210,6 +210,13 @@ def set_all_location_rules(world: Crash2World) -> None:
                             #print(f"Location : {location.name}, gimmick : {gimmick}")
                             add_rule(location,
                                      lambda state, gimmick=gimmick: state.has(gimmick, world.player))
+            if world.options.ability_lock:
+                if "Hang Eight Bonus Part 1" in location.name:
+                    add_rule(location,
+                             lambda state: state.has_any(["Slide", "Crawl"], world.player))
+                if "The Pits Bonus Part 4" in location.name:
+                    add_rule(location,
+                             lambda state: state.has_all(["Slide", "Crawl"], world.player))
             # location.name = location.name.replace("&", "")
             # location.name = location.name.replace("^", "")
             if "Secret Entrance" in location.name:
@@ -375,6 +382,49 @@ def set_all_location_rules(world: Crash2World) -> None:
 
 
 
+
+    # Ability Lock Rules
+
+    if world.options.ability_lock:
+        if red_gem: # If red gem early is enabled
+            set_rule(world.get_location("Snow Go: Red Gem"),
+                     lambda state: state.has("Snow Go: Secret Entrance", world.player)) # might need more logic here if completing the secret path is hard with nothing
+            add_rule(world.get_location("Snow Go: Red Gem"),
+                     lambda state: state.has_all(["Slam", "Slide", "Slide Jump", "High Jump Spin"], world.player), "or")
+        add_rule(world.get_location("The Pits: Clear Gem (Box Gem)"),
+                 lambda state: state.has_all(["Slam", "Slide", "Crawl"], world.player))
+        if world.options.ability_lock_logic == 0:
+            # Normal Logic
+            add_rule(world.get_location("Turtle Woods: Clear Gem (Box Gem)"),
+                     lambda state: state.has_all(["Slam", "Slide", "Slide Jump"], world.player))
+            add_rule(world.get_location("Snow Go: Clear Gem (Box Gem)"),
+                     lambda state: state.has_all(["Slide", "Slide Jump"], world.player) or
+                                   (state.has("Ground Spin", world.player) and state.has_any(["Slam", "Crouch Jump"], world.player)))
+            add_rule(world.get_location("Hang Eight: Clear Gem (Timer)"),
+                     lambda state: state.has_any(["Slide", "Jump Spin", "Ground Spin"], world.player))
+            add_rule(world.get_location("Hang Eight: Clear Gem (Box Gem)"),
+                     lambda state: state.has("Jump Spin", world.player) or
+                                   state.has("Ground Spin", world.player) or
+                                   state.has_all(["Slide", "Slide Jump"], world.player) or
+                                   state.has_all(["Crouch Jump", "High Jump Spin"], world.player))
+            add_rule(world.get_location("Crash Dash: Clear Gem (Box Gem)"),
+                     lambda state: (state.has("Ground Spin", world.player) or
+                                    state.has_all(["Slide", "Slide Jump"], world.player)) and (
+                                    state.has("Jump Sping", world.player) or
+                                    state.has_all(["Crouch Jump", "High Jump Spin"], world.player) or
+                                    state.has_all(["Slide", "Slide Jump", "High Jump Spin"], world.player)
+                                   ))
+
+        else: #world.options.ability_lock_logic == 1
+            # Lunatic Logic
+            add_rule(world.get_location("Turtle Woods: Clear Gem (Box Gem)"),
+                     lambda state: state.has("Slam", world.player))
+            add_rule(world.get_location("Snow Go: Clear Gem (Box Gem)"),
+                     lambda state: state.has("Slam", world.player) or
+                                   state.has_all(["Slide", "Slide Jump"], world.player) or
+                                   (state.has("Crouch Jump", world.player) and state.has_any(["Ground Spin", "Jump Spin", "High Jump Spin"], world.player)))
+            add_rule(world.get_location("Crash Dash: Clear Gem (Box Gem)"),
+                     lambda state: state.has_any(["Slide", "Ground Spin", "Jump Spin"], world.player))
 
 
 

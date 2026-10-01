@@ -365,6 +365,37 @@ class FireflyLockLogic(Choice):
 
     default = option_basic
 
+class AbilityLock(Toggle):
+    """
+    Adds 9 items to the pool that unlock Crash's abilities
+    At minimum, crash is able to run around and jump
+    The locked abilities are:
+    - Crawl
+    - Slide
+    - Ground Spin
+    - Slide Spin
+    - Jump Spin
+    - High Jump Spin
+    - Slam
+    - Crouch Jump
+    - Slide Jump
+    """
+    display_name = "Ability Lock"
+
+class AbilityLockLogic(Choice):
+    """
+    This option determines how strict the logic is when Ability Lock is enabled
+    Lunatic: once a check becomes possible it will be considered in logic
+    Normal: gives some more leniency, a check will be in logic when
+    it's "easy" given your current abilities
+    """
+    display_name = "Ability Lock Logic"
+    option_normal = 0
+    option_lunatic = 1
+
+    default = option_normal
+
+
 # # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # # This is in the format "option_name_in_snake_case: OptionClassName".
 @dataclass
@@ -397,6 +428,8 @@ class Crash2Options(PerGameCommonOptions):
     jetboard_lock_logic: JetboardLockLogic
     polar_lock_logic: PolarLockLogic
     firefly_lock_logic: FireflyLockLogic
+    ability_lock : AbilityLock
+    ability_lock_logic : AbilityLockLogic
 
 #
 # # If we want to group our options by similar type, we can do so as well. This looks nice on the website.
@@ -417,6 +450,10 @@ option_groups = [
         "Gimmick Lock",
         [GimmickLock, JetpackLockLogic, JetboardLockLogic, PolarLockLogic, FireflyLockLogic],
     ),
+    OptionGroup(
+        "Ability Lock",
+        [AbilityLock, AbilityLockLogic],
+    )
 ]
 
 # Finally, we can define some option presets if we want the player to be able to quickly choose a specific "mode".

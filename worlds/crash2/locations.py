@@ -210,6 +210,7 @@ LOCATION_NAME_TO_ID = {
 
     "Polar Lives Secret": 109,
 
+    # The ending trigger locations take up ids 998 & 999
     # life count checks take up ids 1000 - 1099
 
     # Wumpa bundle checks take up ids 10,000 - 10,403
@@ -217,9 +218,6 @@ LOCATION_NAME_TO_ID = {
 
     # Life sanity checks: 30,000 - 30,041
 
-    # "Test Location 0": 10000,
-    # "Test Location 1": 20000,
-    # "Test Location 2": 10002,
 }
 
 # for easier lookup during location group setup
