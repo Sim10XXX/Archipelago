@@ -28,7 +28,7 @@ class Crash2WebWorld(WebWorld):
 
     # We need to override the "game" field of the WebWorld superclass.
     # This must be the same string as the regular World class.
-    game = "Crash2"
+    game = "Crash 2"
 
     theme = "grass"
 
