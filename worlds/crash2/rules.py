@@ -479,7 +479,7 @@ def set_all_location_rules(world: Crash2World) -> None:
         return str_to_rule(tokenlist[0])
 
     # Ability Lock Rules
-    print("is_ut:",is_ut)
+    # print("is_ut:",is_ut)
     #is_ut = True
     if world.options.ability_lock:
         for entry in data.abilitylockrules:
@@ -498,7 +498,7 @@ def set_all_location_rules(world: Crash2World) -> None:
                 else:
                     glitchrule = glitchrule & Has("Lunacy")
                 rule = rule | glitchrule
-            print("Name:", entry["Name"], "rule:", rule)
+            # print("Name:", entry["Name"], "rule:", rule)
 
             if rule is None:
                 continue
