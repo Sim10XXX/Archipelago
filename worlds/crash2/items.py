@@ -40,6 +40,8 @@ ITEM_NAME_TO_ID = {
     "Crouch Jump" : 25,
     "Slide Jump" : 26,
     "Dig" : 27,
+
+    "Lunacy" : 28, # Used to calculate glitched locations in UT
 }
 
 # Items should have a defined default classification.
@@ -73,6 +75,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Crouch Jump" : ItemClassification.progression | ItemClassification.useful,
     "Slide Jump" : ItemClassification.progression | ItemClassification.useful,
     "Dig" : ItemClassification.progression | ItemClassification.useful,
+
+    "Lunacy" : ItemClassification.progression, # Used to calculate glitched locations in UT
 }
 
 

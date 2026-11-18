@@ -188,14 +188,14 @@ abilitylockrules = [
                  "Bear It Before Checkpoint 3",
                  "Bear It Ending"],
         "Lunatic": "",
-        "Normal": "Slide + SlideJump",
+        "Normal": "Slide + SlideJump || Polar",
         "Wumpa": [2, 7, 3, 4]
     },
     {
         "Name": ["Bear It: Crystal",
                  "Bear It: Regular Exit"],
         "Lunatic": "",
-        "Normal": "Slide + SlideJump + HighJumpSpin",
+        "Normal": "Slide + SlideJump + HighJumpSpin || Polar",
     },
     # Crash Crush
     {
@@ -931,11 +931,54 @@ abilitylockrules = [
         "Lunatic": "",
         "Normal": "Slide",
         "Wumpa": [4, 4, 0, 0]
+    },
+    # Totally Bear
+    {
+        "Name": ["Totally Bear: Clear Gem (Box Gem)",
+                 "Totally Bear: Regular Exit"],
+        "Lunatic": "Polar",
+        "Normal": "Polar",
+        "Wumpa": [0, 0]
+    },
+    {
+        "Name": ["Totally Bear Start",
+                 "Totally Bear Start Before Big Jump",
+                 "Totally Bear First Checkpoint Uphill",
+                 "Totally Bear First Checkpoint After Statues",
+                 "Totally Bear First Checkpoint Before Big Jump",
+                 "Totally Bear Before Second Checkpoint",
+                 "Totally Bear Second Checkpoint Line",
+                 "Totally Bear Second Checkpoint Before TNT",
+                 "Totally Bear Second Checkpoint Under Metal Boxes",
+                 "Totally Bear After Third Checkpoint",
+                 "Totally Bear Third Checkpoint Uphill*",
+                 "Totally Bear Ending"],
+        "Lunatic": "",
+        "Normal": "Slide + SlideJump || Polar",
+        "Wumpa": [3, 3, 4, 3, 3, 3, 7, 3, 2, 3, 7, 10]
+    },
+    # Totally Fly
+    {
+        "Name": "Totally Fly: Clear Gem (Box Gem)",
+        "Lunatic": "Slam",
+        "Normal": "Slide + Slam",
+        "Wumpa": [0]
+    },
+    {
+        "Name": ["Totally Fly Before First Checkpoint",
+                 "Totally Fly Fourth Firefly",
+                 "Totally Fly Before Second Checkpoint",
+                 "Totally Fly Bonus Over Nitros Part 1",
+                 "Totally Fly Bonus Over Nitros Part 2",
+                 "Totally Fly Bonus Ending",
+                 "Totally Fly After Reinforced Crates Part 1",
+                 "Totally Fly After Reinforced Crates Part 2",
+                 "Totally Fly: Regular Exit"],
+        "Lunatic": "",
+        "Normal": "Slide",
+        "Wumpa": [3, 3, 3, 5, 5, 4, 5, 6, 0]
     }
 
-
-    # N. Gin
-    # Piston it Away
 ]
 """
     {

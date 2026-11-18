@@ -114,6 +114,7 @@ class Crash2World(World):
     # This defaults to "Menu", but you can change it by overriding origin_region_name.
     origin_region_name = "Warp Room 1"
 
+    glitches_item_name = "Lunacy"
     # Our world class must have certain functions ("steps") that get called during generation.
     # The main ones are: create_regions, set_rules, create_items.
     # For better structure and readability, we put each of these in their own file.

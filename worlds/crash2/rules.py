@@ -193,7 +193,7 @@ def set_all_location_rules(world: Crash2World) -> None:
     # # Wouldn't it also be better if in hard mode, it already knew it had to check Shield and Health Upgrade as well?
     # # Well, we can achieve this by doing the "if world.options.hard_mode" check outside the set_rule call,
     # # and instead having two *different* set_rule calls depending on which case we're in.
-
+    is_ut = getattr(world.multiworld, "generation_is_fake", False)
 
     # handle some general rules for item checks
     if world.options.fruit_sanity != 0 or world.options.life_sanity:
@@ -479,17 +479,27 @@ def set_all_location_rules(world: Crash2World) -> None:
         return str_to_rule(tokenlist[0])
 
     # Ability Lock Rules
-
+    print("is_ut:",is_ut)
+    #is_ut = True
     if world.options.ability_lock:
         for entry in data.abilitylockrules:
             if world.options.ability_lock_logic == 0:
                 rulestr = entry["Normal"]
+                if is_ut:
+                    glitchedrulestr = entry["Lunatic"]
             else:
                 rulestr = entry["Lunatic"]
             #print(rulestr)
             rule = parse_rulestr(rulestr)
-            #print("Name:", entry["Name"], "rule:", rule)
-            #print("rule:", rule)
+            if is_ut and world.options.ability_lock_logic == 0:
+                glitchrule = parse_rulestr(glitchedrulestr)
+                if glitchrule is None:
+                    glitchrule = Has("Lunacy")
+                else:
+                    glitchrule = glitchrule & Has("Lunacy")
+                rule = rule | glitchrule
+            print("Name:", entry["Name"], "rule:", rule)
+
             if rule is None:
                 continue
             if entry.get("Option") is not None:
@@ -506,6 +516,7 @@ def set_all_location_rules(world: Crash2World) -> None:
                 if type(wumpa_list) is int:
                     wumpa_list = [wumpa_list]
 
+            resolved_rule = rule.resolve(world)
             for i in range(len(name_list)):
                 count = wumpa_list[i]
                 if count > 0:
@@ -513,14 +524,18 @@ def set_all_location_rules(world: Crash2World) -> None:
                         continue
                     elif world.options.fruit_sanity == 1:
                         loc = world.get_location(name_list[i] + " Bundle (" + str(count) + " Wumpas)")
-                        world.set_rule(loc, rule)
+
+                        add_rule(loc, resolved_rule)
+                        #world.set_rule(loc, rule)
                     else:
                         for j in range(count):
                             loc = world.get_location(name_list[i] + " Wumpa #" + str(j + 1))
-                            world.set_rule(loc, rule)
+                            add_rule(loc, resolved_rule)
+                            #world.set_rule(loc, rule)
                 else:
                     loc = world.get_location(name_list[i])
-                    world.set_rule(loc, rule)
+                    add_rule(loc, resolved_rule)
+                    #world.set_rule(loc, rule)
                     #print("Rule set for", name_list[i])
 
 
