@@ -87,6 +87,7 @@ class LifeSanity(Toggle):
 
 class LifeCountChecksRange(FreeText):
     """
+    *KEEP DISABLED* (there is a bug with these checks that can cause them to not collect)
     Add checks for reaching certain life counts
     Logic uses crystal count in order to consider higher life counts as occurring later in the run
     This works like the Python Range function, so the first number is the start point,
@@ -103,6 +104,7 @@ class LifeCountChecksRange(FreeText):
 
 class LifeCountChecksCustom(OptionSet):
     """
+    *KEEP DISABLED* (there is a bug with these checks that can cause them to not collect)
     Add any custom values to the previous option
     These need to be written as strings. Valid values are in the range 5 - 99
     """
