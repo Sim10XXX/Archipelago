@@ -469,7 +469,7 @@ abilitylockrules = [
             "Hangin' Out: Crystal",
             "Hangin' Out: Regular Exit"
         ],
-        "Lunatic": "",
+        "Lunatic": "DoubleMask",
         "Normal": "Slide || GroundSpin || JumpSpin || CrouchJump + HighJumpSpin",
         "Wumpa": [
             8,
@@ -978,7 +978,6 @@ abilitylockrules = [
         "Normal": "Slide",
         "Wumpa": [3, 3, 3, 5, 5, 4, 5, 6, 0]
     }
-
 ]
 """
     {

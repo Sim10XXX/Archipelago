@@ -538,6 +538,9 @@ def set_all_location_rules(world: Crash2World) -> None:
                     #world.set_rule(loc, rule)
                     #print("Rule set for", name_list[i])
 
+    for level in ["Air Crash", "Bear Down", "Un-Bearable", "Diggin' It", "Hangin' Out"]:
+        entrance = world.get_entrance(level + " to Warp Room 6")
+        entrance.access_rule = world.get_location(level + ": Secret Exit").access_rule
 
     # if world.options.ability_lock:
     #
